@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="VendasProdutos" language="groovy" pageWidth="595" pageHeight="700" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5198ea70-ce08-4b98-befa-628955ab0c1e">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<queryString>
+		<![CDATA[SELECT P.sNmProduto aS Nome_Produto,
+Count(VP.nCdProduto) AS Quantidade_Vendida,
+SUM(P.dVlVenda) AS Receita_Bruta,
+SUM(P.dVlVenda - P.dVlCompra) AS Receita_Liquida
+FROM produto P
+LEFT JOIN vendas_produtos VP ON P.nCdProduto = VP.nCdProduto
+GROUP BY P.sNmProduto
+ORDER BY Receita_Liquida DESC]]>
+	</queryString>
+	<field name="nome_produto" class="java.lang.String"/>
+	<field name="quantidade_vendida" class="java.lang.Long"/>
+	<field name="receita_bruta" class="java.math.BigDecimal"/>
+	<field name="receita_liquida" class="java.math.BigDecimal"/>
+	<variable name="SOMA" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{receita_liquida}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="0" y="13" width="263" height="33" uuid="8c123a25-21dc-4891-b8eb-57d1a55754aa"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Vendas por Produto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="117" y="46" width="157" height="22" uuid="6e191b8f-a915-40ef-81d9-f66b49794383"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="435" y="13" width="80" height="20" uuid="14db6481-71a7-46f9-ad61-67fe617de8b5"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="515" y="13" width="40" height="20" uuid="d45c9176-35cc-46f5-a493-7138bce0de0d"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1" uuid="297dc12e-d627-4a6f-98d4-da80ec3c61c0"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="19" width="138" height="15" forecolor="#000000" uuid="ac4137e8-53f2-47a2-bae2-e16ee4130de0"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome Produto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="138" y="19" width="138" height="15" forecolor="#000000" uuid="3f12656f-7cb4-49be-b187-0cf26749bee6"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Qtd Vendida]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="276" y="19" width="138" height="15" forecolor="#000000" uuid="6e044bf7-3018-421c-851b-89f5fc02ed66"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Receita Bruta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="414" y="19" width="138" height="15" forecolor="#000000" uuid="088cb019-4f19-4aea-9bef-2d38105a16e8"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Receita Líquida]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="7159322f-2108-4f6d-9ab0-084dc2e14681"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement style="Detail" x="0" y="0" width="138" height="15" uuid="8ed077e2-155f-4cf6-8343-3684f7c4ab58"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nome_produto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="138" y="0" width="138" height="15" uuid="0869d5a8-9d30-4a33-8b6e-93b5a653a427"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{quantidade_vendida}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement style="Detail" x="276" y="0" width="138" height="15" uuid="62255dbf-f49b-45ac-a08d-1157797a0b73"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{receita_bruta}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement style="Detail" x="414" y="0" width="138" height="15" uuid="33ac3613-19ff-4779-802b-293fe95d1f28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{receita_liquida}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="12" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="24d2e8cb-d25b-47ea-a3b7-453609982ee0"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="0fd9364a-2c99-451d-9b6b-615cab17a3db"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="513" y="0" width="40" height="20" uuid="158c96f0-f544-4f89-961f-4a52528ab55e"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="d6df1742-cae7-42c6-87aa-8e04e326f6f4"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="457" y="3" width="68" height="20" uuid="484f9855-2136-46ca-aa30-6d5b21fbd56f"/>
+				<textElement>
+					<font fontName="Arial" size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SOMA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

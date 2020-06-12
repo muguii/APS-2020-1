@@ -1,0 +1,315 @@
+CREATE TABLE telefone (
+nCdTelefone SERIAL NOT NULL,
+sNrDdd VARCHAR(3) NOT NULL,
+sNrTelefone VARCHAR(9) NOT NULL
+);
+CREATE TABLE estado (
+nCdEstado SERIAL NOT NULL,
+sNmEstado VARCHAR(20) NOT NULL,
+sSgEstado VARCHAR(2) NOT NULL
+);
+CREATE TABLE endereco (
+nCdEndereco SERIAL NOT NULL,
+nCdTelefone INT NOT NULL,
+nCdEstado INT NOT NULL,
+sNmMunicipio VARCHAR(50) NOT NULL,
+sDsLogradouro VARCHAR(255) NOT NULL,
+sNrEndereco VARCHAR(50) NOT NULL,
+sDsComplemento VARCHAR(255),
+sNmBairro VARCHAR(100) NOT NULL,
+sNrCep VARCHAR(9) NOT NULL
+);
+CREATE TABLE cargo (
+nCdCargo SERIAL NOT NULL,
+sNmCargo VARCHAR(50) NOT NULL,
+dVlSalario DECIMAL(9,2) NOT NULL
+);
+CREATE TABLE funcionario (
+nCdFuncionario SERIAL NOT NULL,
+nCdEndereco INT NOT NULL,
+nCdCargo INT NOT NULL,
+sNmFuncionario VARCHAR(255) NOT NULL,
+sNrMatricula VARCHAR(15) NOT NULL UNIQUE,
+sNrCpf VARCHAR (11) NOT NULL,
+tDtNascimento DATE NOT NULL,
+sDsEmail VARCHAR(100)
+);
+CREATE TABLE fornecedor (
+nCdFornecedor SERIAL NOT NULL,
+nCdEndereco INT NOT NULL,
+sNmFantasia VARCHAR(255) NOT NULL,
+sNrCnpj VARCHAR(20) NOT NULL,
+sDsEmail VARCHAR(100)
+);
+CREATE TABLE produto (
+nCdProduto SERIAL NOT NULL,
+sCdProduto VARCHAR NOT NULL UNIQUE,
+sNmProduto VARCHAR(255) NOT NULL,
+sDsUnidadeMedida VARCHAR(30),
+dVlCompra DECIMAL(9,2) DEFAULT 0.00,
+dVlVenda DECIMAL(9,2) DEFAULT 0.00,
+tDtFabricacao DATE DEFAULT NULL,
+tDtValidade DATE DEFAULT NULL
+);
+CREATE TABLE estoque (
+nCdEstoque SERIAL NOT NULL,
+nCdProduto INT NOT NULL,
+nNrQuantidade INT NOT NULL,
+tDtEntrada DATE DEFAULT CURRENT_DATE
+);
+CREATE TABLE venda_produto (
+nCdVendaProduto SERIAL NOT NULL,
+nCdVenda INT NOT NULL,
+nCdProduto INT NOT NULL,
+nNrQuantidade INT NOT NULL
+);
+CREATE TABLE venda (
+nCdVenda SERIAL NOT NULL,
+nCdFuncionario INT NOT NULL,
+dVlTotal DECIMAL(9,2) NOT NULL,
+sDsFormaPagamento VARCHAR(50) NOT NULL,
+tDtVenda DATE DEFAULT CURRENT_DATE
+);
+
+ALTER TABLE telefone ADD PRIMARY KEY (nCdTelefone);
+ALTER TABLE estado ADD PRIMARY KEY (nCdEstado);
+ALTER TABLE endereco ADD PRIMARY KEY (nCdEndereco);
+ALTER TABLE cargo ADD PRIMARY KEY (nCdCargo);
+ALTER TABLE funcionario ADD PRIMARY KEY (nCdFuncionario);
+ALTER TABLE fornecedor ADD PRIMARY KEY (ncdfornecedor);
+ALTER TABLE produto ADD PRIMARY KEY (nCdProduto);
+ALTER TABLE estoque ADD PRIMARY KEY (nCdEstoque);
+ALTER TABLE venda_produto ADD PRIMARY KEY (nCdVendaProduto);
+ALTER TABLE venda ADD PRIMARY KEY (nCdVenda);
+
+
+
+ALTER TABLE endereco ADD CONSTRAINT FK_endereco_estado_1
+FOREIGN KEY (nCdEstado) REFERENCES estado (nCdEstado)
+ON UPDATE CASCADE
+ON DELETE NO ACTION;
+
+ALTER TABLE endereco ADD CONSTRAINT FK_endereco_telefone_2
+FOREIGN KEY (nCdTelefone) REFERENCES telefone (nCdTelefone)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
+
+ALTER TABLE funcionario ADD CONSTRAINT FK_funcionario_endereco_1
+FOREIGN KEY (nCdEndereco) REFERENCES endereco (nCdEndereco)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
+
+ALTER TABLE funcionario ADD CONSTRAINT FK_funcionario_cargo_2
+FOREIGN KEY (nCdCargo) REFERENCES cargo (nCdCargo)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
+
+ALTER TABLE fornecedor ADD CONSTRAINT FK_fornecedor_endereco_1
+FOREIGN KEY (nCdEndereco) REFERENCES endereco (nCdEndereco)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
+
+ALTER TABLE estoque ADD CONSTRAINT FK_estoque_produto_1
+FOREIGN KEY (nCdProduto) REFERENCES produto (nCdProduto)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
+
+ALTER TABLE venda_produto ADD CONSTRAINT FK_vendaProduto_produto_1
+FOREIGN KEY (nCdProduto) REFERENCES produto (nCdProduto)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
+
+ALTER TABLE venda_produto ADD CONSTRAINT FK_vendaProduto_venda_2
+FOREIGN KEY (nCdVenda) REFERENCES venda (nCdVenda)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
+
+ALTER TABLE venda ADD CONSTRAINT FK_venda_funcionario_1
+FOREIGN KEY (nCdFuncionario) REFERENCES funcionario (nCdFuncionario)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
+
+
+
+/* ------------------------------------ INSERTS ------------------------------------*/
+/*--------------------------- ESTADO ---------------------------*/
+INSERT INTO estado (sNmEstado, sSgEstado) VALUES
+('Acre', 'AC'),
+('Alagoas', 'AL'),
+('Amazonas', 'AM'),
+('Amapá', 'AP'),
+('Bahia', 'BA'),
+('Ceará', 'CE'),
+('Distrito Federal', 'DF'),
+('Espírito Santo', 'ES'),
+('Goiás', 'GO'),
+('Maranhão', 'MA'),
+('Minas Gerais', 'MG'),
+('Mato Grosso do Sul', 'MS'),
+('Mato Grosso', 'MT'),
+('Pará', 'PA'),
+('Paraíba', 'PB'),
+('Pernambuco', 'PE'),
+('Piauí', 'PI'),
+('Paraná', 'PR'),
+('Rio de Janeiro', 'RJ'),
+('Rio Grande do Norte', 'RN'),
+('Rondônia', 'RO'),
+('Roraima', 'RR'),
+('Rio Grande do Sul', 'RS'),
+('Santa Catarina', 'SC'),
+('Sergipe', 'SE'),
+('São Paulo', 'SP'),
+('Tocantins', 'TO');
+
+
+/*--------------------------- TELEFONE ---------------------------*/
+INSERT INTO telefone (sNrDdd, sNrTelefone) VALUES
+('48', '984356985'),
+('47', '999587179'),
+('49', '998589256'),
+('48', '984167285'),
+('47', '999864864'),
+('48', '984986153'),
+('48', '990864565'),
+('48', '999346786'),
+('49', '998098345'),
+('49', '990463089'),
+('47', '940563778'),
+('48', '998037096'),
+('48', '998037096');
+
+
+/*--------------------------- ENDERECO ---------------------------*/
+INSERT INTO endereco (nCdEstado, nCdTelefone, sNmMunicipio, sDsLogradouro, sNrEndereco, sDsComplemento, sNmBairro, sNrCep) VALUES
+(23, 1, 'São José', 'Rua São Pedro', '1132', 'Casa', 'Barreiros', '88113733'),
+(23, 2, 'Palhoça', 'Rua Rodrigo Valtes', '123', 'Casa', 'Caminho Novo', '88113674'),
+(23, 3, 'Florianópolis', 'Rua Cristiano da Silva Peixoto', '428', NULL, 'Saco Grande', '88113465'),
+(23, 4, 'São José', 'Rua Santa Aparecida', '1101', 'Bloco F', 'Forquilhas', '88443633'),
+(23, 5, 'Florianópolis', 'Rodovia Gustavo Varzea', 'F-125', 'Bloco B', 'Itacorubi', '88003576'),
+(23, 6, 'Palhoça', 'Rua Alfrodo Sete', '875', 'Casa', 'Caminho Novo', '81145645'),
+(23, 7, 'Florianópolis', 'Rodovia das Bandeiras', '113', NULL, 'Trindade', '85525477'),
+(23, 8, 'Palhoça', 'Servidão Dezessete', 'S/N', NULL, 'Aririu', '89938467'),
+(23, 9, 'São José', 'Rua Carlos Manoel da Silva', '2314', NULL, 'Bela Vista', '89002331'),
+(25, 10, 'Florianópolis', 'Rua Estefani Menezes', '23', NULL, 'Lagoa da Conceição', '88001332'),
+(25, 11, 'Palhoça', 'Rua das Sacolas', '1433', NULL, 'Aririu Formiga', '88113900'),
+(23, 12, 'Biguaçu', 'Rua das Cerejeiras', '111', NULL, 'Jardim Janaína', '88114009'),
+(23, 13, 'Biguaçu', 'Rua Doze de Agosto', '29', NULL, 'Cachoeiras', '88117885');
+
+
+/*--------------------------- CARGO ---------------------------*/
+INSERT INTO cargo (sNmCargo, dVlSalario) VALUES
+('Gerente', 3500.00),
+('Supervisor', 2000.00),
+('Caixa', 1470.00),
+('Açougueiro', 1700.00),
+('Padeiro', 1500.00);
+
+
+/*--------------------------- FUNCIONARIO ---------------------------*/
+INSERT INTO funcionario (nCdEndereco, nCdCargo, sNmFuncionario, sNrMatricula, sNrCpf, tDtNascimento, sDsEmail) VALUES
+(1, 1, 'Carlos Alexandre', '3000', '09999444232', '05/04/1995', 'carlos@gmail.com'),
+(2, 2, 'Muriel Aurelio', '3001', '09976534400', '09/06/1998', 'muriel@gmail.com'),
+(3, 2, 'Joao Pedro', '3002', '46599484332', '23/02/1994', NULL),
+(4, 3, 'Kauan ', '3003', '46599431232', '18/10/1997', 'kauan@gmail.com'),
+(5, 3, 'Marcelo Filho', '3004', '09799890232', '01/12/2000', 'marcelo@gmail.com'),
+(6, 3, 'Manoela Souza Prates', '3005', '09907896978', '30/09/1990', 'manoela@gmail.com'),
+(7, 4, 'Augusto Silva', '3006', '09700471345', '22/02/1998', 'augusto@gmail.com'),
+(8, 5, 'Cesar Hoffmann', '3007', '11366534500', '29/11/1988', NULL);
+
+
+/*--------------------------- FORNECEDOR ---------------------------*/
+INSERT INTO fornecedor (nCdEndereco, sNmFantasia, sNrCnpj, sDsEmail) VALUES
+(9, 'RIOPACK DISTRIBUIDORA PRODUTOS PARA SUPERMERCADOS LTDA', '53677994000141', 'riopack@gmail.com'),
+(10, 'BRASILIA ALIMENTOS LTDA', '87886523000165', 'brasiliaalimentos@gmail.com'),
+(11, 'CASTELO ALIMENTOS S.A', '23947097000140', 'casteloalimentos@gmail.com'),
+(12, 'M. DIAS BRANCO S.A INDUSTRIA E COMERCIO DE ALIMENTOS', '84315310000195', 'diasbranco@gmail.com'),
+(13, 'NHA BENTA IND. DE ALIMENTOS LTDA', '84315310000195', 'nhabenta@gmail.com');
+
+
+/*--------------------------- PRODUTO ---------------------------*/
+INSERT INTO produto (sCdProduto, sNmProduto, sDsUnidadeMedida, dVlCompra, dVlVenda, tDtFabricacao, tDtValidade) VALUES
+('100', 'Arroz Tio João 1kg', 'kg', 2.99, 3.98, '02/05/2020', '11/03/2021'),
+('101', 'Feijão Caldão 1kg', 'kg', 4.49, 5.49, '05/05/2020', '14/06/2021'),
+('102', 'Macarrão Orquídea 500g', 'g', 1.49, 2.89, '23/04/2020', '13/03/2021'),
+('103', 'Café Melita 500g', 'g', 5.49, 7.99, '05/05/2020', '23/12/2020'),
+('104', 'Leite Tirol 1l', 'lt', 1.99, 2.68, '02/05/2020', '27/07/2020'),
+('105', 'Pizza Seara 460g', 'g', 7.99, 9.99, '23/04/2020', '15/05/2020'),
+('106', 'Manteiga Tirol 200g', 'g', 4.99, 5.49, '23/04/2020', '22/10/2020'),
+('107', 'Queijo Tirol 400g', 'g', 7.99, 9.97, '02/05/2020', '02/07/2020'),
+('108', 'Achocolatado Toddy 800g', 'g', 8.99, 10.98, '11/05/2020', '11/03/2021'),
+('109', 'Farinha de Trigo Dona Benta 1kg', 'kg', 2.49, 3.39, '11/05/2020', '11/05/2021'),
+('110', 'Refrigerante Pureza 2l', 'l', 3.99, 4.89, '23/04/2020', '18/08/2020'),
+('111', 'Cerveja Eisenbahn 350ml', 'ml', 3.19, 3.99, '02/05/2020', '13/07/2020'),
+('112', 'Desinfetante Pinho Sol 500ml', 'lt', 3.49, 4.29, '05/05/2020', '11/03/2021'),
+('113', 'Vassoura Condor', 'un', 15.00, 19.99, '05/05/2020', '05/05/2021'),
+('114', 'Shampoo Pantene 400ml', 'ml', 7.99, 9.99, '02/05/2020', '03/02/2021'),
+('115', 'Creme Dental Colgate 90g', 'g', 2.99, 3.49, '05/05/2020', '19/01/2021'),
+('116', 'Detergente Ypê 500ml', 'ml', 0.00, 0.00, '05/05/2020', '19/01/2021'),
+('117', 'Açucar Caravelas 1kg', 'kg', 0.00, 0.00, '05/05/2020', '19/01/2021'),
+('118', 'Bolacha Trakinas 126g', 'g', 0.00, 0.00, '05/05/2020', '19/01/2021');
+
+
+/*--------------------------- ESTOQUE ---------------------------*/
+INSERT INTO estoque (nCdProduto, nNrQuantidade, tDtEntrada) VALUES
+('1', 50, '17/05/2020'),
+('2', 66, '17/05/2020'),
+('3', 50, '17/05/2020'),
+('4', 47, '17/05/2020'),
+('5', 88, '17/05/2020'),
+('6', 29, '18/05/2020'),
+('7', 46, '18/05/2020'),
+('8', 38, '18/05/2020'),
+('9', 24, '18/05/2020'),
+('10', 29, '18/05/2020'),
+('11', 41, '18/05/2020'),
+('12', 46, '19/05/2020'),
+('13', 35, '20/05/2020'),
+('14', 16, '20/05/2020'),
+('15', 38, '21/05/2020'),
+('16', 1, '25/05/2020'),
+('17', 0, '25/05/2020'),
+('18', 0, '25/05/2020'),
+('19', 15, '25/05/2020');
+
+
+/*--------------------------- VENDA ---------------------------*/
+INSERT INTO venda (nCdFuncionario, dVlTotal, sDsFormaPagamento, tDtVenda) VALUES
+(4, 70.51, 'Cartão Débito', '20/05/2020'),
+(5, 41.39, 'Dinheiro', '20/05/2020'),
+(4, 24.15, 'Cartão Crédito', '20/05/2020'),
+(6, 22.92, 'Cartão Crédito', '20/05/2020'),
+(6, 117.43, 'Cartão Débito', '20/05/2020'),
+(4, 4.89, 'Dinheiro', '21/05/2020'),
+(4, 9.99, 'Dinheiro', '22/05/2020'),
+(4, 2.68, 'Dinheiro', '22/05/2020');
+
+
+/*--------------------------- VENDA_PRODUTO ---------------------------*/
+INSERT INTO venda_produto (nCdVenda, nCdProduto, nNrQuantidade) VALUES
+(1, '5', 3),
+(1, '11', 2),
+(1, '12', 7),
+(1, '4', 1),
+(1, '6', 1),
+(1, '10', 2),
+(2, '2', 2),
+(2, '8', 2),
+(2, '16', 3),
+(3, '15', 1),
+(3, '3', 3),
+(3, '7', 1),
+(4, '9', 1),
+(4, '11', 3),
+(5, '13', 2),
+(5, '10', 2),
+(5, '14', 1),
+(5, '8', 2),
+(5, '16', 5),
+(5, '6', 1),
+(5, '1', 2),
+(5, '3', 2),
+(5, '2', 2),
+(6, '11', 1),
+(7, '6', 1),
+(8, '5', 1);

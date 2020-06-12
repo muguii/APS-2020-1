@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="VendasFuncionario" language="groovy" pageWidth="595" pageHeight="500" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1389e6e7-4bb1-4d37-8a3d-42d849c6483a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT F.sNmFuncionario AS Nome_Funcionario,
+SUM(V.dVlTotal) AS Valor_Total_de_Vendas
+FROM funcionario F
+INNER JOIN venda V ON F.nCdFuncionario = V.nCdFuncionario
+GROUP BY F.sNmFuncionario
+ORDER BY Valor_Total_de_Vendas DESC]]>
+	</queryString>
+	<field name="nome_funcionario" class="java.lang.String"/>
+	<field name="valor_total_de_vendas" class="java.math.BigDecimal"/>
+	<variable name="SOMA" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor_total_de_vendas}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="0" y="13" width="309" height="33" uuid="38007347-50a5-474e-be40-fc5fbec7e99a"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Vendas por Funcionário]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="433" y="0" width="80" height="20" uuid="2e2439bd-c4ea-4c3e-8803-f73fbd01ec1a"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="513" y="0" width="40" height="20" uuid="86474c65-4d89-49be-b042-3fffc9969a6c"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1" uuid="3267d5c4-1002-4563-b059-c826632f7237"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="19" width="277" height="15" forecolor="#000000" uuid="82ee89d0-e25a-4c46-850a-ba12e5de945d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Nome]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="277" y="19" width="277" height="15" forecolor="#000000" uuid="c7f02f6b-ece9-4bc5-a5e9-f23328daf592"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Valor Total]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="4c528a7f-8e5d-4e06-afec-ef12a1c4748b"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement style="Detail" x="0" y="0" width="277" height="15" uuid="c2c7633e-3876-45d2-a09a-f3f18dca6877"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nome_funcionario}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement style="Detail" x="277" y="0" width="277" height="15" uuid="b42cbb16-c027-4179-a011-42ed256e2c39"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{valor_total_de_vendas}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="1b7888d7-21d1-475b-bfff-eb8c4c555ab7"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="5a0432fa-941b-4f3c-9208-5c7385401616"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="513" y="0" width="40" height="20" uuid="2ae08c43-84be-4bcd-b3e2-04d8527d789d"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="50bd25e5-8d27-4f85-b5a9-2f6c5279e2c9"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="37" splitType="Stretch">
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="364" y="0" width="100" height="20" uuid="c3b3d1ee-539c-4fed-b313-d3a201d067f2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SOMA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

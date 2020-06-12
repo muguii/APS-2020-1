@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1168.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.VendasListController">
+   <children>
+      <Label text="Vendas">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+         <padding>
+            <Insets left="5.0" top="5.0" />
+         </padding>
+      </Label>
+      <ToolBar prefHeight="40.0" prefWidth="200.0">
+         <items>
+            <Button fx:id="btAdicionar" mnemonicParsing="false" onAction="#onBtAdicionarAction" text="Adicionar" textAlignment="CENTER" />
+            <Label prefHeight="17.0" prefWidth="95.0" />
+            <TextField fx:id="txtPesquisa" prefHeight="25.0" prefWidth="139.0" promptText="Nome funcionário">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </TextField>
+            <Label prefHeight="17.0" prefWidth="19.0" />
+            <Button fx:id="btPesquisar" mnemonicParsing="false" onAction="#onBtPesquisarAction" text="Pesquisar" />
+         </items>
+      </ToolBar>
+      <TableView fx:id="tableViewVenda" prefHeight="689.0" prefWidth="1168.0">
+        <columns>
+            <TableColumn fx:id="tableColumnDetalhes" prefWidth="93.0" style="-fx-alignment: CENTER;" text="Ver Detalhes" />
+            <TableColumn fx:id="tableColumnIdVenda" prefWidth="61.0" style="-fx-alignment: CENTER;" text="ID" visible="false" />
+          <TableColumn fx:id="tableColumnNomeFuncionario" prefWidth="277.0" style="-fx-alignment: CENTER;" text="Funcionário" />
+            <TableColumn fx:id="tableColumnValorTotal" prefWidth="124.0" style="-fx-alignment: CENTER;" text="Valor Total" />
+            <TableColumn fx:id="tableColumnFormaPagamento" prefWidth="159.0" style="-fx-alignment: CENTER;" text="Forma de Pagamento" />
+            <TableColumn fx:id="tableColumnDataVenda" prefWidth="136.0" style="-fx-alignment: CENTER;" text="Data Venda" />
+        </columns>
+      </TableView>
+      <HBox prefHeight="49.0" prefWidth="1186.0">
+         <children>
+            <Label text="Vendas Total">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="5.0" left="10.0" right="10.0" top="15.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="txtVendasTotal" editable="false">
+               <HBox.margin>
+                  <Insets bottom="5.0" top="12.0" />
+               </HBox.margin>
+            </TextField>
+         </children>
+      </HBox>
+   </children>
+</VBox>

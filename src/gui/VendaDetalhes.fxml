@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.VendaDetalhesController">
+   <children>
+      <TableView fx:id="tableViewDetalhesVenda" prefHeight="400.0" prefWidth="600.0">
+        <columns>
+            <TableColumn fx:id="tableColumnCodigoProduto" prefWidth="85.0" style="-fx-alignment: CENTER;" text="Código" />
+          <TableColumn fx:id="tableColumnNomeProduto" prefWidth="333.0" style="-fx-alignment: CENTER;" text="Produto" />
+            <TableColumn fx:id="tableColumnQuantidade" prefWidth="82.0" style="-fx-alignment: CENTER;" text="Quantidade" />
+            <TableColumn fx:id="tableColumnValor" prefWidth="99.0" style="-fx-alignment: CENTER;" text="Valor " />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

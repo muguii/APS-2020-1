@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1340.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DashboardController">
+   <content>
+      <VBox prefHeight="798.0" prefWidth="1476.0">
+         <children>
+            <MenuBar>
+              <menus>
+                <Menu mnemonicParsing="false" text="Adicionar" visible="false">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Cargo" />
+                        <MenuItem mnemonicParsing="false" text="Fornecedor" />
+                        <MenuItem mnemonicParsing="false" text="Funcionário" />
+                        <MenuItem mnemonicParsing="false" text="Produto" />
+                        <MenuItem mnemonicParsing="false" text="Usuário" />
+                  </items>
+                </Menu>
+                  <Menu mnemonicParsing="false" text="Estoque">
+                     <items>
+                        <MenuItem fx:id="menuItemEstoque" mnemonicParsing="false" onAction="#onMenuItemEstoqueAction" text="Estoque" />
+                     </items></Menu>
+                  <Menu mnemonicParsing="false" text="Vendas">
+                     <items>
+                        <MenuItem fx:id="menuItemVendas" mnemonicParsing="false" onAction="#onMenuItemVendasAction" text="Vendas" />
+                     </items></Menu>
+                  <Menu mnemonicParsing="false" text="Funcionários">
+                     <items>
+                        <MenuItem fx:id="menuItemFuncionarios" mnemonicParsing="false" onAction="#onMenuItemFuncionariosAction" text="Funcionários" />
+                     </items></Menu>
+                  <Menu mnemonicParsing="false" text="Fornecedores">
+                     <items>
+                        <MenuItem fx:id="menuItemFornecedores" mnemonicParsing="false" onAction="#onMenuItemFornecedoresAction" text="Fornecedores" />
+                     </items></Menu>
+                  <Menu mnemonicParsing="false" text="Cargos">
+                    <items>
+                      <MenuItem fx:id="menuItemCargos" mnemonicParsing="false" onAction="#onMenuItemCargosAction" text="Cargos" />
+                    </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Relátorios">
+                    <items>
+                        <Menu mnemonicParsing="false" text="Vendas">
+                          <items>
+                              <MenuItem fx:id="menuItemRelatorioVendasProduto" mnemonicParsing="false" onAction="#onmenuItemRelatorioVendasProduto" text="Por Produto" />
+                            <MenuItem fx:id="menuItemRelatorioVendasFuncionario" mnemonicParsing="false" onAction="#onmenuItemRelatorioVendasFuncionario" text="Por Funcionário" />
+                          </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Estoque">
+                          <items>
+                              <MenuItem fx:id="menuItemRelatorioVendasDataEntrada" mnemonicParsing="false" onAction="#onmenuItemRelatorioVendasDataEntrada" text="Por Data de Entrada" />
+                            <MenuItem fx:id="menuItemRelatorioEstoqueValidade" mnemonicParsing="false" onAction="#onmenuItemRelatorioEstoqueValidade" text="Por Validade" />
+                          </items>
+                        </Menu>
+                    </items>
+                  </Menu>
+              </menus>
+            </MenuBar>
+         </children>
+      </VBox>
+   </content>
+</ScrollPane>
